@@ -14,4 +14,4 @@ jobs:
         run: |
           echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           docker build -t owasp/dependency-check-action:latest .
-          docker push owasp/dependency-check:latest
+          docker push owasp/dependency-check-action:latest
