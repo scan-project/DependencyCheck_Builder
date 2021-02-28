@@ -1,6 +1,7 @@
 name: Dependency check builder
-on: [push]
-
+on:
+  schedule:
+    - cron:  '0 0 * * *' 
 jobs:
   depcheck-builder:
     runs-on: ubuntu-latest
