@@ -1,7 +1,5 @@
 name: Dependency check builder
-on: 
-  schedule:
-    - cron:  '0 0 * * *' 
+on: [push]
 
 jobs:
   depcheck-builder:
