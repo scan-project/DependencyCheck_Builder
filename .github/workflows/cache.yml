@@ -14,6 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 2
           ref: gh-pages
       - uses: actions/setup-java@v4
         with:
@@ -31,6 +32,8 @@ jobs:
           chmod +x vulnz-5.1.1.jar
           ./vulnz-5.1.1.jar cve --cache --directory ./nvd_cache  --threads=5 --debug --delay=5000
           rm vulnz-5.1.1.jar
+          git status
+          cat nvd_cache/cache.properties
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
           git commit -am 'chore: update'
