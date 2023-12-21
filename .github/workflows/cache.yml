@@ -21,17 +21,16 @@ jobs:
           distribution: 'zulu' # See 'Supported distributions' for available options
           java-version: '11'
       - name: update
-        env:
-          NVD_API_KEY: '${{ secrets.NVD_API_KEY }}'
         run: |
           curl https://github.com/jeremylong/Open-Vulnerability-Project/releases/download/v5.1.1/vulnz-5.1.1.jar -s -L -o vulnz.jar
           git reset --soft HEAD~1
           ls -la .
-          java -jar vulnz.jar cve --cache --directory ./nvd_cache  --threads=5 --debug --delay=5000
+          java -jar vulnz.jar cve --cache --directory ./nvd_cache  --threads=5 --debug --delay=10000
           rm vulnz.jar
           git status
           cat nvd_cache/cache.properties
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
+          git add ./nvd_cache/
           git commit -am 'chore: update'
           git push origin gh-pages --force
