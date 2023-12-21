@@ -1,0 +1,31 @@
+name: nvd cache
+on:
+  schedule:
+    - cron:  '0 11 * * *'
+  workflow_dispatch:
+  # Needed so we can run it manually
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    name: Build dependency-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu' # See 'Supported distributions' for available options
+          java-version: '17'
+      - name: update
+        env:
+          NVD_API_KEY: '${{ secrets.EZORED_AWS_KEY_ID }}'
+        run: |
+          curl -s -O https://github.com/jeremylong/Open-Vulnerability-Project/releases/download/v5.1.1/vulnz-5.1.1.jar
+          git reset --soft HEAD~1
+          ./vulnz-5.1.1.jar cve --cache --directory ./nvd_cache  --threads=5 --debug --delay=5000
+          rm vulnz-5.1.1.jar
+          git commit -am 'chore: update'
+          git push origin gh-pages --force
