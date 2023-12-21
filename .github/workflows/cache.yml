@@ -9,7 +9,7 @@ jobs:
   build:
     permissions:
       contents: write
-    name: Build dependency-check
+    name: Update NVD API Cache
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +24,8 @@ jobs:
           NVD_API_KEY: '${{ secrets.EZORED_AWS_KEY_ID }}'
         run: |
           curl -s -O https://github.com/jeremylong/Open-Vulnerability-Project/releases/download/v5.1.1/vulnz-5.1.1.jar
-          git reset --soft HEAD~1
+          # git reset --soft HEAD~1
+          git --no-pager log --decorate=short --pretty=oneline
           ./vulnz-5.1.1.jar cve --cache --directory ./nvd_cache  --threads=5 --debug --delay=5000
           rm vulnz-5.1.1.jar
           git commit -am 'chore: update'
