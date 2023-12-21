@@ -30,7 +30,9 @@ jobs:
           curl -s -O https://github.com/jeremylong/Open-Vulnerability-Project/releases/download/v5.1.1/vulnz-5.1.1.jar
           # git reset --soft HEAD~1
           chmod +x vulnz-5.1.1.jar
-          ./vulnz-5.1.1.jar cve --cache --directory ./nvd_cache  --threads=5 --debug --delay=5000
+          ./vulnz-5.1.1.jar cve --cache --directory ./nvd_cache  --threads=5 --debug --delay=5000 > vulnz.log
+          cat vulnz.log
+          rm vulnz.log
           rm vulnz-5.1.1.jar
           git status
           cat nvd_cache/cache.properties
